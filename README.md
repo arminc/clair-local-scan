@@ -39,5 +39,4 @@ TODO
 
 * Configure travis to push the image to docker hub
   * Create an extra user for docker hub
-* Configure travis to build every day: https://docs.travis-ci.com/user/cron-jobs/
 * Test scanning images
