@@ -15,6 +15,6 @@ do
     fi
 
     echo -n "."
-    sleep 30
+    sleep 10
 done
 echo ""
