@@ -1,7 +1,9 @@
-- Configureer travis om dit te bouwen
-- Configureer travis om image te pushen naar docker hub
-- Configureer travis om elke dag te bouwen: https://docs.travis-ci.com/user/cron-jobs/
+- Configure travis build
+- Configure travis to push the image to docker hub
+- Configure travis to build every day: https://docs.travis-ci.com/user/cron-jobs/
 
-- Hoe werkt het scanen van een image?
-- Hoe kan je omgaan met white listing?
+- Test scanning images
+- How to handle white-listing of issues
+- How to use in Jenkins
+- Fix readme
 
