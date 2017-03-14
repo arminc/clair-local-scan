@@ -12,4 +12,5 @@ install:
 script:
   - docker run -d --name clair --link postgres:postgres -v $TRAVIS_BUILD_DIR/clair_config:/config quay.io/coreos/clair:v2.0.0-rc.0 -config=/config/config.yaml
   - ./check.sh clair
+  - echo done
 
