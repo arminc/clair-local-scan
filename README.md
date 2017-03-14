@@ -27,7 +27,15 @@ The build can be found here: https://travis-ci.org/arminc/clair
 For the convenience I am using an extended clair docker container.
 You can find it here: https://hub.docker.com/r/arminc/clair/
 
+### How to scan containers
+
+Using the clair container and clair DB this is how you can scan your own Docker containere. (How about OSX docker for mac?)
+
 ## Whitelisting Solution
+
+TODO
+
+### How to use whitelisting
 
 TODO
 
@@ -40,3 +48,8 @@ TODO
 * Configure travis to push the image to docker hub
   * Create an extra user for docker hub
 * Test scanning images
+  * Add https://github.com/coreos/clair/tree/master/contrib/analyze-local-images to the clair image
+  * Show how to scan a docker container
+* Create an solution for whitelisting
+  * Explain it in the readme
+* Show how to use it in Jenkins
