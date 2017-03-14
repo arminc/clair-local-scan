@@ -2,15 +2,15 @@
 
 while true
 do
-    docker logs $1 | grep "updater: update finished" >& /dev/null
+    docker logs clair | grep "clair: update finished" >& /dev/null
     if [ $? == 0 ]; then
         break
     fi
 
-    docker logs $1 | grep "updater: an error occured" >& /dev/null
+    docker logs clair | grep "an error occured" >& /dev/null
     if [ $? == 0 ]; then
-        echo ""
-        echo "error during vulnerabilities database update" >&2
+        echo "Error happend" >&2
+        docker logs clair
         exit 1
     fi
 
