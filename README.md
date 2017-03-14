@@ -29,7 +29,33 @@ You can find it here: https://hub.docker.com/r/arminc/clair/
 
 ### How to scan containers
 
-Using the clair container and clair DB this is how you can scan your own Docker containere. (How about OSX docker for mac?)
+Using the clair container and clair DB this is how you can scan your own Docker container.
+
+If you are on linux skip these two steps:
+
+```bash
+docker run -d --privileged --name docker docker:1.8-dind
+docker exec -ti docker /bin/sh
+```
+
+Start the clair db
+
+```bash
+docker run -d --name db arminc/clair-db:initial-14-03-2017
+```
+
+Start clair
+
+```bash
+docker run -p 6060:6060 --link db:postgres -v /tmp:/tmp -v /var/run/docker.sock:/var/run/docker.sock -d --name clair arminc/clair:v2.0.0-rc.0
+```
+
+Scan a container (How do you get a working analyze-local-images...)
+
+```bash
+analyze-local-images arminc/clair-db:initial-14-03-2017
+```
+
 
 ## Whitelisting Solution
 
