@@ -1,14 +1,17 @@
 sudo: required
 
+language: go
+
 services:
   - docker
 
 install:
+  - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
   - docker pull postgres:9.6.2-alpine
-  - docker pull arminc/clair-local-scan:v2.0.0-rc.0
+  - docker pull quay.io/coreos/clair:v2.0.0-rc.0
   - docker run -d --name postgres -e POSTGRES_PASSWORD=password postgres:9.6.2-alpine
   - sleep 20
-  - docker run -d --name clair --link postgres:postgres arminc/clair-local-scan:v2.0.0-rc.0
+  - docker run -d --name clair --link postgres:postgres arminc/clair:v2.0.0-rc.0
   
 script:
   - ./check.sh clair
@@ -18,3 +21,4 @@ after_success:
   - docker stop postgres
   - docker commit postgres arminc/clair-db:$(date +%Y-%m-%d)
   - docker images
+  - docker push arminc/clair-db:$(date +%Y-%m-%d)

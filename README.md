@@ -71,8 +71,6 @@ TODO
 
 ## TODO
 
-* Configure travis to push the image to docker hub
-  * Create an extra user for docker hub
 * Test scanning images
   * Add https://github.com/coreos/clair/tree/master/contrib/analyze-local-images to the clair image
   * Show how to scan a docker container
