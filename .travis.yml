@@ -5,10 +5,10 @@ services:
 
 install:
   - docker pull postgres:9.6.2-alpine
-  - docker pull quay.io/coreos/clair:v2.0.0-rc.0
+  - docker pull arminc/clair-local-scan:v2.0.0-rc.0
   - docker run -d --name postgres -e POSTGRES_PASSWORD=password postgres:9.6.2-alpine
   - sleep 20
-  - docker run -d --name clair --link postgres:postgres arminc/clair:v2.0.0-rc.0
+  - docker run -d --name clair --link postgres:postgres arminc/clair-local-scan:v2.0.0-rc.0
   
 script:
   - ./check.sh clair
