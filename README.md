@@ -68,12 +68,3 @@ TODO
 ## How to use in Jenkins
 
 TODO
-
-## TODO
-
-* Test scanning images
-  * Add https://github.com/coreos/clair/tree/master/contrib/analyze-local-images to the clair image
-  * Show how to scan a docker container
-* Create an solution for whitelisting
-  * Explain it in the readme
-* Show how to use it in Jenkins
