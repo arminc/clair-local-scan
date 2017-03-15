@@ -31,31 +31,18 @@ You can find it here: https://hub.docker.com/r/arminc/clair/
 
 Using the clair container and clair DB this is how you can scan your own Docker container.
 
-If you are on linux skip these two steps:
+Start the clair db and clair
 
 ```bash
-docker run -d --privileged --name docker docker:1.8-dind
-docker exec -ti docker /bin/sh
+docker run -d --name db arminc/clair-db:2017-03-15
+docker run -p 6060:6060 --link db:postgres -d --name clair arminc/clair:v2.0.0-rc.0
 ```
 
-Start the clair db
+Scan a container
 
 ```bash
-docker run -d --name db arminc/clair-db:initial-14-03-2017
+analyze-local-images -endpoint http://IP:6060 -my-address IP arminc/clair-db:2017-03-15
 ```
-
-Start clair
-
-```bash
-docker run -p 6060:6060 --link db:postgres -v /tmp:/tmp -v /var/run/docker.sock:/var/run/docker.sock -d --name clair arminc/clair:v2.0.0-rc.0
-```
-
-Scan a container if you are on linux just execute analyze-local-images
-
-```bash
-docker exec -ti clair analyze-local-images arminc/clair-db:initial-14-03-2017
-```
-
 
 ## Whitelisting Solution
 

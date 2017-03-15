@@ -20,5 +20,7 @@ after_success:
   - docker stop clair
   - docker stop postgres
   - docker commit postgres arminc/clair-db:$(date +%Y-%m-%d)
+  - docker tag arminc/clair-db:$(date +%Y-%m-%d)tag arminc/clair-db:latest
   - docker images
   - docker push arminc/clair-db:$(date +%Y-%m-%d)
+  - docker push arminc/clair-db:latest
