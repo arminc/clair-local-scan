@@ -1,19 +1,24 @@
-# Clair server
+# Clair server or local
 
-You can run a dedicated clair server with a database but if you want to run clair standalone in your CI/CD pipeline then you are in a surprise. Because starting clair from scratch takes about 20 to 30 minutes for the DB to be filled up.
+CoreOs Clair https://github.com/coreos/clair
 
-The fix this problem I have created a Travis scheduled job that creates the DB daily. 
+You can run a dedicated clair server with a database but if you want to run clair standalone in your CI/CD pipeline then you are in a surprise:
+
+* Starting clair from scratch takes about 20 to 30 minutes for the DB to be filled up.
+* Clair needs to access the container layers and therefore you need remote access from clair to your build job.
+
+The fix these problems I have created a Travis scheduled job that creates the DB daily that can be used to run clair standalone in you build job.
 
 * You can find the image here https://hub.docker.com/r/arminc/clair-db 
 * And you can find the Travis Job here https://travis-ci.org/arminc/clair-local-scan
 
-To be able to fill the datbase we need a clair server, for the convenience and usabillity later I am using an extended clair docker container. 
+To be able to fill the datbase we need a clair server, for the convenience and usabillity later I am using an extended clair docker container.
 
-* You can find it here: https://hub.docker.com/r/arminc/clair
+* You can find it here: https://hub.docker.com/r/arminc/clair-local-scan
 
 ## How to scan containers
 
-Start the clair db and clair
+Start the clair db and clair locally or in your job
 
 ```bash
 docker run -d --name db arminc/clair-db:2017-03-15
