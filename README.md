@@ -50,10 +50,10 @@ Start clair
 docker run -p 6060:6060 --link db:postgres -v /tmp:/tmp -v /var/run/docker.sock:/var/run/docker.sock -d --name clair arminc/clair:v2.0.0-rc.0
 ```
 
-Scan a container (How do you get a working analyze-local-images...)
+Scan a container if you are on linux just execute analyze-local-images
 
 ```bash
-analyze-local-images arminc/clair-db:initial-14-03-2017
+docker exec -ti clair analyze-local-images arminc/clair-db:initial-14-03-2017
 ```
 
 
