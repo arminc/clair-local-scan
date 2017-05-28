@@ -1,4 +1,6 @@
-# Clair server or local
+# Clair server or local 
+
+[![Build Status](https://travis-ci.org/arminc/clair-local-scan.svg?branch=master)](https://travis-ci.org/arminc/clair-local-scan)
 
 CoreOs Clair <https://github.com/coreos/clair>
 
