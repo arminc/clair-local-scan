@@ -2,7 +2,7 @@
 
 while true
 do
-    docker logs clair | grep "clair: update finished" >& /dev/null
+    docker logs clair | grep "update finished" >& /dev/null
     if [ $? == 0 ]; then
         break
     fi
