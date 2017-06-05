@@ -1,6 +1,6 @@
 # Clair server or local
 
-[![Build Status](https://travis-ci.org/arminc/clair-local-scan.svg?branch=master)](https://travis-ci.org/arminc/clair-local-scan)
+[![Build Status](https://travis-ci.org/arminc/clair-local-scan.svg?branch=master)](https://travis-ci.org/arminc/clair-local-scan) The build fails because of parsing issues, see <https://github.com/coreos/clair/issues/409>. All database versions before 3 of June still work.
 
 CoreOs Clair <https://github.com/coreos/clair>, using the latest version 2.0.0
 
