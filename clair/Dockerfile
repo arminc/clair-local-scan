@@ -1,4 +1,4 @@
-FROM quay.io/coreos/clair:v2.0.0
+FROM quay.io/coreos/clair:v2.0.1
 
 COPY config.yaml /config/config.yaml
 
