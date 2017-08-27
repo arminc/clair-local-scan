@@ -7,9 +7,9 @@ services:
 
 install:
   - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
-  - docker pull postgres:9.6.2-alpine
+  - docker pull arminc/clair-db:$(date --date="1 day ago" +%Y-%m-%d)
   - docker pull arminc/clair-local-scan:v2.0.0
-  - docker run -d --name postgres -e 'PGDATA=/var/lib/postgresql/clair' -e POSTGRES_PASSWORD=password postgres:9.6.2-alpine
+  - docker run -d --name postgres -e 'PGDATA=/var/lib/postgresql/clair' -e POSTGRES_PASSWORD=password arminc/clair-db:$(date --date="1 day ago" +%Y-%m-%d)
   - sleep 20
   - docker run -d --name clair --link postgres:postgres arminc/clair-local-scan:v2.0.0
   
