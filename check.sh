@@ -2,15 +2,15 @@
 
 while true
 do
-    docker logs clair | grep "update finished" >& /dev/null
+    docker logs "$1" | grep "update finished" >& /dev/null
     if [ $? == 0 ]; then
         break
     fi
 
-    docker logs clair | grep "an error occured" >& /dev/null
+    docker logs "$1" | grep "an error occured" >& /dev/null
     if [ $? == 0 ]; then
         echo "Error happend" >&2
-        docker logs clair
+        docker logs "$1"
         exit 1
     fi
 
