@@ -7,7 +7,7 @@ services:
 
 install:
   - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
-  - docker pull postgres:alpine
+  - docker pull postgres:10.3-alpine
   - docker pull arminc/clair-local-scan:v2.0.1
   - docker run -d --name postgres -e 'PGDATA=/var/lib/postgresql/clair' -e POSTGRES_PASSWORD=password postgres:10.3-alpine
   - sleep 20
