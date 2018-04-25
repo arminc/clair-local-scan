@@ -5,13 +5,16 @@ language: go
 services:
   - docker
 
+env:
+  - POSTGRES_IMAGE=postgres:10.3-alpine CLAIR_LOCAL_SCAN_IMAGE=arminc/clair-local-scan:v2.0.1
+
 install:
   - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
-  - docker pull postgres:10.3-alpine
-  - docker pull arminc/clair-local-scan:v2.0.1
-  - docker run -d --name postgres -e 'PGDATA=/var/lib/postgresql/clair' -e POSTGRES_PASSWORD=password postgres:10.3-alpine
+  - docker pull $POSTGRES_IMAGE
+  - docker pull $CLAIR_LOCAL_SCAN_IMAGE
+  - docker run -d --name postgres -e 'PGDATA=/var/lib/postgresql/clair' -e POSTGRES_PASSWORD=password $POSTGRES_IMAGE
   - sleep 20
-  - docker run -d --name clair --link postgres:postgres arminc/clair-local-scan:v2.0.1
+  - docker run -d --name clair --link postgres:postgres $CLAIR_LOCAL_SCAN_IMAGE
   
 script:
   - ./check.sh clair
