@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/arminc/clair-local-scan.svg?branch=master)](https://travis-ci.org/arminc/clair-local-scan)
 
-CoreOs Clair <https://github.com/coreos/clair>, using the latest version 2.0.4
+CoreOs Clair <https://github.com/coreos/clair>, using the latest version 2.0.5
 
 You can run a dedicated clair server with a database but if you want to run clair standalone in your CI/CD pipeline then you are in a surprise:
 
