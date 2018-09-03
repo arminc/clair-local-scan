@@ -6,7 +6,7 @@ services:
   - docker
 
 env:
-  - POSTGRES_IMAGE=postgres:10.4-alpine CLAIR_LOCAL_SCAN_IMAGE=arminc/clair-local-scan:v2.0.4
+  - POSTGRES_IMAGE=postgres:10.4-alpine CLAIR_LOCAL_SCAN_IMAGE=arminc/clair-local-scan:v2.0.5
 
 install:
   - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
