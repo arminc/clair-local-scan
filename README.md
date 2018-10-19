@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/arminc/clair-local-scan.svg?branch=master)](https://travis-ci.org/arminc/clair-local-scan)
 
-CoreOs Clair <https://github.com/coreos/clair>, using the latest version 2.0.5
+CoreOs Clair <https://github.com/coreos/clair>, using the latest version 2.0.6
 
 You can run a dedicated clair server with a database but if you want to run clair standalone in your CI/CD pipeline then you are in a surprise:
 
@@ -26,7 +26,7 @@ Start the clair DB and clair locally or in your job
 
 ```bash
 docker run -d --name db arminc/clair-db:2017-03-15
-docker run -p 6060:6060 --link db:postgres -d --name clair arminc/clair-local-scan:v2.0.5
+docker run -p 6060:6060 --link db:postgres -d --name clair arminc/clair-local-scan:v2.0.6
 ```
 
 Having clair locally working is nice but you need to do something with it. You can either scan it with the 'official' analyze-local-images from CoreOS, or you can use a version modified by me. My version verifies which vulnerabilities are accepted and which are not (using a whitelist). You can find more info here <https://github.com/arminc/clair-scanner>
