@@ -24,12 +24,12 @@ after_success:
   - docker stop clair
   - docker stop postgres
   - docker commit postgres arminc/clair-db:$(date +%Y-%m-%d)
-
-before_deploy:
-  - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
   - docker tag arminc/clair-db:$(date +%Y-%m-%d) arminc/clair-db:latest
   - docker tag $CLAIR_LOCAL_SCAN_IMAGE ${CLAIR_LOCAL_SCAN_IMAGE}:${CLAIR_VERSION}_${TRAVIS_COMMIT}
   - docker images
+
+before_deploy:
+  - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
 
 deploy:
   provider: script
