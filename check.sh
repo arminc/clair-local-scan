@@ -1,16 +1,18 @@
 #!/bin/bash
 
+CONTAINER="${1:-clair}"
+
 while true
 do
-    docker logs "$1" | grep "update finished" >& /dev/null
+    docker logs "$CONTAINER" | grep "update finished" >& /dev/null
     if [ $? == 0 ]; then
         break
     fi
 
-    docker logs "$1" | grep "an error occured" >& /dev/null
+    docker logs "$CONTAINER" | grep "an error occured" >& /dev/null
     if [ $? == 0 ]; then
         echo "Error happend" >&2
-        docker logs "$1"
+        docker logs "$CONTAINER"
         exit 1
     fi
 
