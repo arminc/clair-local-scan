@@ -6,15 +6,14 @@ services:
   - docker
 
 env:
-  - POSTGRES_IMAGE=postgres:11.1-alpine CLAIR_VERSION=v2.0.7 CLAIR_LOCAL_SCAN_IMAGE=arminc/clair-local-scan
+  - CLAIR_VERSION=v2.0.7 CLAIR_LOCAL_SCAN_IMAGE=arminc/clair-local-scan
 
 install:
   - docker build -t $CLAIR_LOCAL_SCAN_IMAGE --build-arg VERSION=$CLAIR_VERSION clair
 
 before_script:
-  - docker pull $POSTGRES_IMAGE
   - docker run -d --name postgres -e 'PGDATA=/var/lib/postgresql/clair' -e POSTGRES_PASSWORD=password arminc/clair-db:$(date --date="-1 day" +%Y-%m-%d)
-  - until docker run --rm -it --link postgres:postgres -e PGPASSWORD=password $POSTGRES_IMAGE pg_isready -U postgres -h postgres; do sleep 1; done
+  - until docker run --rm -it --link postgres:postgres -e PGPASSWORD=password postgres:11.1-alpine pg_isready -U postgres -h postgres; do sleep 1; done
   - docker run -d --name clair --link postgres:postgres $CLAIR_LOCAL_SCAN_IMAGE
 
 script:
