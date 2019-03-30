@@ -22,8 +22,8 @@ Important: Keep in mind that you can use a new version of the database with upda
 Start the Clair database and Clair locally or while running your job
 
 ```bash
-docker run -d --name db arminc/clair-db:2017-03-15
-docker run -p 6060:6060 --link db:postgres -d --name clair arminc/clair-local-scan:v2.0.7
+docker run -d --name db arminc/clair-db:latest
+docker run -p 6060:6060 --link db:postgres -d --name clair arminc/clair-local-scan:v2.0.6
 ```
 
 Example of how to use today's date (for OSX)
