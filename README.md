@@ -23,7 +23,7 @@ Start the Clair database and Clair locally or while running your job
 
 ```bash
 docker run -d --name db arminc/clair-db:latest
-docker run -p 6060:6060 --link db:postgres -d --name clair arminc/clair-local-scan:v2.0.6
+docker run -p 6060:6060 --link db:postgres -d --name clair arminc/clair-local-scan:v2.0.8
 ```
 
 Example of how to use today's date (for OSX)
