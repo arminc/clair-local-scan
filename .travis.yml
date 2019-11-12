@@ -6,7 +6,7 @@ services:
   - docker
 
 env:
-  - POSTGRES_IMAGE=postgres:11.1-alpine CLAIR_VERSION=v2.0.8 CLAIR_LOCAL_SCAN_IMAGE=arminc/clair-local-scan
+  - POSTGRES_IMAGE=postgres:11.1-alpine CLAIR_VERSION=v2.1.0 CLAIR_LOCAL_SCAN_IMAGE=arminc/clair-local-scan
 
 install:
   - docker build -t $CLAIR_LOCAL_SCAN_IMAGE --build-arg VERSION=$CLAIR_VERSION clair
