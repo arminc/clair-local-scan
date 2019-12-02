@@ -39,5 +39,5 @@ Having Clair locally working is nice but you need to do something with it. You c
 For more information see <https://github.com/arminc/clair-scanner>
 
 ```bash
-clair-scanner nginx:1.11.6-alpine example-nginx.yaml http://YOUR_LOCAL_IP:6060 YOUR_LOCAL_IP
+clair-scanner --whitelist=example-nginx.yaml --clair=http://YOUR_LOCAL_IP:6060 --ip=YOUR_LOCAL_IP nginx:1.11.6-alpine
 ```
