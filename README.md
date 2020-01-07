@@ -22,14 +22,14 @@ Important: Keep in mind that you can use a new version of the database with upda
 Start the Clair database and Clair locally or while running your job
 
 ```bash
-docker run -d --name db arminc/clair-db:latest
-docker run -p 6060:6060 --link db:postgres -d --name clair arminc/clair-local-scan:v2.0.8_fe9b059d930314b54c78f75afe265955faf4fdc1
+docker run -d --name clair-db arminc/clair-db:latest
+docker run -p 6060:6060 --link clair-db:postgres -d --name clair arminc/clair-local-scan:v2.0.8_fe9b059d930314b54c78f75afe265955faf4fdc1
 ```
 
 Example of how to use today's date (for OSX)
 
 ```bash
-docker run -d --name db arminc/clair-db:$(date +%Y-%m-%d)
+docker run -d --name clair-db arminc/clair-db:$(date +%Y-%m-%d)
 ```
 
 Having Clair locally working is nice but you need to do something with it. You can use it to scan your images for vulnerabilities using my clair-scanner <https://github.com/arminc/clair-scanner>. It verifies which vulnerabilities are accepted and which are not (using a whitelist).
