@@ -19,6 +19,7 @@ before_script:
 
 script:
   - ./check.sh
+  - docker logs clair
 
 after_success:
   - docker stop clair
