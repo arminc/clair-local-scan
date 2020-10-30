@@ -9,11 +9,16 @@ do
         break
     fi
 
-    docker logs "$CONTAINER" | grep "an error occured" >& /dev/null
+    docker logs "$CONTAINER" | grep "error" >& /dev/null
     if [ $? == 0 ]; then
-        echo "Error happend" >&2
-        docker logs "$CONTAINER"
+        echo "Error during update." >&2
         exit 1
+    fi
+    
+    docker logs "$CONTAINER" | grep "warning" >& /dev/null
+    if [ $? == 0 ]; then
+        echo "Warning during update." >&2
+        exit 2
     fi
 
     echo -n "."
