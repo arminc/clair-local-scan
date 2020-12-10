@@ -18,7 +18,6 @@ do
     docker logs "$CONTAINER" | grep "warning" >& /dev/null
     if [ $? == 0 ]; then
         echo "Warning during update." >&2
-        exit 2
     fi
 
     echo -n "."
