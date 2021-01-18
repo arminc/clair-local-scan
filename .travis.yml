@@ -6,7 +6,7 @@ services:
   - docker
 
 env:
-  - POSTGRES_IMAGE=postgres:11.6-alpine CLAIR_VERSION=v2.1.6 CLAIR_LOCAL_SCAN_IMAGE=arminc/clair-local-scan
+  - POSTGRES_IMAGE=postgres:11.6-alpine CLAIR_VERSION=v4.0.0-rc.24 CLAIR_LOCAL_SCAN_IMAGE=arminc/clair-local-scan
 
 install:
   - docker build -t $CLAIR_LOCAL_SCAN_IMAGE --build-arg VERSION=$CLAIR_VERSION clair
@@ -38,6 +38,6 @@ deploy:
     branch: master
   script:
     docker push ${CLAIR_LOCAL_SCAN_IMAGE}:${CLAIR_VERSION}_${TRAVIS_COMMIT} &&
-    docker push $CLAIR_LOCAL_SCAN_IMAGE:latest && 
+    docker push $CLAIR_LOCAL_SCAN_IMAGE:latest &&
     docker push arminc/clair-db:$(date +%Y-%m-%d) &&
     docker push arminc/clair-db:latest
