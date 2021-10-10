@@ -22,7 +22,7 @@ do
         echo "Warning during update." >&2
     fi
 
-    echo "."
+    docker logs -n 1 "$CONTAINER"
     sleep 10
     ((COUNTER++))
 
