@@ -2,14 +2,10 @@ name: Docker Image CI
 
 on:
   push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+    branches: [master]
 
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
     env:
       POSTGRES_IMAGE: "postgres:11.6-alpine"
@@ -29,7 +25,7 @@ jobs:
 
       - name: Build image
         run: docker build -t $CLAIR_LOCAL_SCAN_IMAGE --build-arg VERSION=$CLAIR_VERSION clair
-        
+
       - name: Start Postgres
         run: |
           docker pull $POSTGRES_IMAGE
