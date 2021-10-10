@@ -3,6 +3,9 @@ name: Docker Image CI
 on:
   push:
     branches: [master]
+  schedule:
+    - cron: "0 0 * * *"
+  workflow_dispatch:
 
 jobs:
   build:
@@ -26,12 +29,10 @@ jobs:
       - name: Build image
         run: docker build -t $CLAIR_LOCAL_SCAN_IMAGE --build-arg VERSION=$CLAIR_VERSION clair
 
-      - name: Start Postgres
+      - name: Start Postgres and run clair
         run: |
           docker pull $POSTGRES_IMAGE
           docker run -d --name postgres -e 'PGDATA=/var/lib/postgresql/clair' -e POSTGRES_PASSWORD=password $POSTGRES_IMAGE
-      - name: Run Clair
-        run: |
           docker run --rm -d --link postgres:postgres -e PGPASSWORD=password $POSTGRES_IMAGE pg_isready -U postgres -h postgres
           docker run -d --name clair --link postgres:postgres $CLAIR_LOCAL_SCAN_IMAGE
       - name: Wait for containers
