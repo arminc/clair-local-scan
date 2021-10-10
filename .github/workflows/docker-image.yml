@@ -34,8 +34,13 @@ jobs:
         run: |
           docker run --rm -d --link postgres:postgres -e PGPASSWORD=password $POSTGRES_IMAGE pg_isready -U postgres -h postgres
           docker run -d --name clair --link postgres:postgres $CLAIR_LOCAL_SCAN_IMAGE
-      - name: Docker logs
+      - name: Wait for containers
         run: |
+          sleep 60
+      - name: Docker container info
+        run: |
+          docker ps -a
+          docker logs postgres
           docker logs clair
       - name: Checking
         run: |
