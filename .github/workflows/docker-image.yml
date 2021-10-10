@@ -33,15 +33,27 @@ jobs:
         run: |
           docker pull $POSTGRES_IMAGE
           docker run -d --name postgres -e 'PGDATA=/var/lib/postgresql/clair' -e POSTGRES_PASSWORD=password $POSTGRES_IMAGE
-          docker run --rm -d --link postgres:postgres -e PGPASSWORD=password $POSTGRES_IMAGE pg_isready -U postgres -h postgres
-          docker run -d --name clair --link postgres:postgres $CLAIR_LOCAL_SCAN_IMAGE
-      - name: Wait for containers
+      - name: Wait for database
         run: |
-          sleep 60
-      - name: Docker container info
+          sleep 30
+      - name: Docker Postgres info
         run: |
           docker ps -a
           docker logs postgres
+      - name: Run Clair
+        run: |
+          docker run --rm -d --link postgres:postgres -e PGPASSWORD=password $POSTGRES_IMAGE pg_isready -U postgres -h postgres
+          docker run -d --name clair --link postgres:postgres $CLAIR_LOCAL_SCAN_IMAGE
+      - name: Wait for clair
+        run: |
+          sleep 10
+      - name: Docker Postgres info
+        run: |
+          docker ps -a
+          docker logs postgres
+      - name: Docker Clair info
+        run: |
+          docker ps -a
           docker logs clair
       - name: Checking
         run: |
