@@ -1,6 +1,8 @@
 #!/bin/bash
 
 CONTAINER="${1:-clair}"
+COUNTER=1
+MAX=360
 
 while true
 do
@@ -14,13 +16,19 @@ do
         echo "Error during update." >&2
         exit 1
     fi
-    
+
     docker logs "$CONTAINER" | grep "warning" >& /dev/null
     if [ $? == 0 ]; then
         echo "Warning during update." >&2
     fi
 
-    echo -n "."
+    echo "."
     sleep 10
+    ((COUNTER++))
+
+    if [ "$COUNTER" -eq "$MAX" ]; then
+        echo "Took to long";
+        exit 1
+    fi
 done
 echo ""

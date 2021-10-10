@@ -34,9 +34,14 @@ jobs:
         run: |
           docker run --rm -d --link postgres:postgres -e PGPASSWORD=password $POSTGRES_IMAGE pg_isready -U postgres -h postgres
           docker run -d --name clair --link postgres:postgres $CLAIR_LOCAL_SCAN_IMAGE
+      - name: Docker logs
+        run: |
+          docker logs clair
       - name: Checking
         run: |
           ./check.sh
+      - name: Docker logs
+        run: |
           docker logs clair
       - name: Tag images
         run: |
