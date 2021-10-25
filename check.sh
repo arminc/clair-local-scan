@@ -13,6 +13,7 @@ do
 
     docker logs "$CONTAINER" | grep "error" >& /dev/null
     if [ $? == 0 ]; then
+        docker logs -n 25 "$CONTAINER"
         echo "Error during update." >&2
         exit 1
     fi
