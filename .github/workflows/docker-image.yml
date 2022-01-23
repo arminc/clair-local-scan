@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       POSTGRES_IMAGE: "postgres:11.6-alpine"
-      CLAIR_VERSION: "v2.1.7"
+      CLAIR_VERSION: "v2.1.8"
       CLAIR_LOCAL_SCAN_IMAGE: "arminc/clair-local-scan"
 
     steps:
