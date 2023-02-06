@@ -71,7 +71,7 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
-          password: ${{ secrets.PAT  }}
+          password: ${{ github.token }}
       - name: Push images
         run: |
           docker push $GHCR_REPO:$(date +%Y-%m-%d)
