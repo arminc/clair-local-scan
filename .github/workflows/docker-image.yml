@@ -41,32 +41,33 @@ jobs:
         run: |
           docker ps -a
           docker logs postgres
-      # - name: Run Clair
-      #   run: |
-      #     docker run --rm -d --link postgres:postgres -e PGPASSWORD=password $POSTGRES_IMAGE pg_isready -U postgres -h postgres
-      #     docker run -d --name clair --link postgres:postgres $CLAIR_LOCAL_SCAN_IMAGE
-      # - name: Wait for clair
-      #   run: |
-      #     sleep 10
-      # - name: Docker Postgres info
-      #   run: |
-      #     docker ps -a
-      #     docker logs postgres
-      # - name: Docker Clair info
-      #   run: |
-      #     docker ps -a
-      #     docker logs clair
-      # - name: Checking
-      #   run: |
-      #     ./check.sh
-      # - name: Docker logs
-      #   run: |
-      #     docker logs clair
+      - name: Run Clair
+        run: |
+          docker run --rm -d --link postgres:postgres -e PGPASSWORD=password $POSTGRES_IMAGE pg_isready -U postgres -h postgres
+          docker run -d --name clair --link postgres:postgres $CLAIR_LOCAL_SCAN_IMAGE
+      - name: Wait for clair
+        run: |
+          sleep 10
+      - name: Docker Postgres info
+        run: |
+          docker ps -a
+          docker logs postgres
+      - name: Docker Clair info
+        run: |
+          docker ps -a
+          docker logs clair
+      - name: Checking
+        run: |
+          ./check.sh
+      - name: Docker logs
+        run: |
+          docker logs clair
       - name: Tag images # TODO add docker stop clair when this is completed
         run: |
           IMAGE_TAG=$DOCKER_REGISTRY/${{ github.repository }}:$(date +%Y-%m-%d)
           IMAGE_TAG_LATEST=$DOCKER_REGISTRY/${{ github.repository }}:latest
           docker stop postgres
+          docker stop clair
           docker commit postgres $IMAGE_TAG
           docker tag $IMAGE_TAG $IMAGE_TAG_LATEST
           docker images
