@@ -63,7 +63,7 @@ jobs:
         run: |
           docker stop clair
           docker stop postgres
-          docker commit postgres :$(date +%Y-%m-%d)
+          docker commit postgres $GHCR_REPO:$(date +%Y-%m-%d)
           docker tag $GHCR_REPO:$(date +%Y-%m-%d) $GHCR_REPO:latest
           docker images
       - name: Login to DockerHub
