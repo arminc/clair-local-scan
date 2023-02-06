@@ -59,9 +59,9 @@ jobs:
       # - name: Checking
       #   run: |
       #     ./check.sh
-      - name: Docker logs
-        run: |
-          docker logs clair
+      # - name: Docker logs
+      #   run: |
+      #     docker logs clair
       - name: Tag images
         run: |
           IMAGE_TAG=$DOCKER_REGISTRY/${{ github.repository }}:$(date +%Y-%m-%d)
