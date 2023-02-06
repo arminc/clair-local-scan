@@ -62,11 +62,10 @@ jobs:
       # - name: Docker logs
       #   run: |
       #     docker logs clair
-      - name: Tag images
+      - name: Tag images # TODO add docker stop clair when this is completed
         run: |
           IMAGE_TAG=$DOCKER_REGISTRY/${{ github.repository }}:$(date +%Y-%m-%d)
           IMAGE_TAG_LATEST=$DOCKER_REGISTRY/${{ github.repository }}:latest
-      #   docker stop clair
           docker stop postgres
           docker commit postgres $IMAGE_TAG
           docker tag $IMAGE_TAG $IMAGE_TAG_LATEST
