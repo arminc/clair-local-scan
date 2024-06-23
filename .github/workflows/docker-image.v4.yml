@@ -1,0 +1,82 @@
+name: Docker Image v4 CI
+
+on:
+  push:
+    branches: [master]
+  schedule:
+    - cron: "0 0 * * *"
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      POSTGRES_IMAGE: "postgres:16-alpine"
+      CLAIR_VERSION: "4.7.4"
+      CLAIR_LOCAL_SCAN_IMAGE: "arminc/clair-local-scan-v4"
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v3
+        with:
+          driver: docker
+          install: true
+
+      - name: Build image
+        run: docker build -t $CLAIR_LOCAL_SCAN_IMAGE --build-arg VERSION=$CLAIR_VERSION clair/v4
+
+      - name: Start Postgres and run clair
+        run: |
+          docker pull $POSTGRES_IMAGE
+          docker run -d --name postgres -e 'PGDATA=/var/lib/postgresql/clair' -e POSTGRES_PASSWORD=password $POSTGRES_IMAGE
+      - name: Wait for database
+        run: |
+          sleep 30
+      - name: Docker Postgres info
+        run: |
+          docker ps -a
+          docker logs postgres
+      - name: Run Clair
+        run: |
+          docker run --rm -d --link postgres:postgres -e PGPASSWORD=password $POSTGRES_IMAGE pg_isready -U postgres -h postgres
+          docker run -d --name clair --link postgres:postgres $CLAIR_LOCAL_SCAN_IMAGE
+      - name: Wait for clair
+        run: |
+          sleep 10
+      - name: Docker Postgres info
+        run: |
+          docker ps -a
+          docker logs postgres
+      - name: Docker Clair info
+        run: |
+          docker ps -a
+          docker logs clair
+      - name: Checking
+        run: |
+          ./clair/v4/check.sh
+      - name: Docker logs
+        run: |
+          docker logs clair
+      - name: Tag images
+        run: |
+          docker stop clair
+          docker stop postgres
+          docker commit postgres arminc/clair-db-v4:$(date +%Y-%m-%d)
+          docker tag arminc/clair-db-v4:$(date +%Y-%m-%d) arminc/clair-db-v4:latest
+          docker tag $CLAIR_LOCAL_SCAN_IMAGE ${CLAIR_LOCAL_SCAN_IMAGE}:${CLAIR_VERSION}_${GITHUB_SHA}
+          docker images
+      # - name: Login to DockerHub
+      #   uses: docker/login-action@v1
+      #   with:
+      #     username: ${{ secrets.DOCKERHUB_USERNAME }}
+      #     password: ${{ secrets.DOCKERHUB_TOKEN }}
+      # - name: Push images
+      #   run: |
+      #     docker push ${CLAIR_LOCAL_SCAN_IMAGE}:${CLAIR_VERSION}_${GITHUB_SHA}
+      #     docker push $CLAIR_LOCAL_SCAN_IMAGE:latest
+      #     docker push arminc/clair-db-v4:$(date +%Y-%m-%d)
+      #     docker push arminc/clair-db-v4:latest
