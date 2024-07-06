@@ -19,6 +19,25 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Runner diskspace workaround
+        run: |
+          # Symlink docker image and containers folders to /mnt (GitHub Action space limitation work around)
+          set -x
+          docker system prune -a -f
+          sudo systemctl stop docker
+          sudo mv /var/lib/docker /mnt/docker
+
+          json_content='{ 
+            "exec-opts": ["native.cgroupdriver=cgroupfs"],
+            "cgroup-parent": "/actions_job",
+            "data-root": "/mnt/docker"
+          }'
+          
+          echo "$json_content" > /tmp/daemon.json
+          sudo mv /tmp/daemon.json /etc/docker/daemon.json
+          sudo rm -fr /var/lib/docker
+          sudo systemctl start docker
+
       - name: Set up Docker Buildx
         id: buildx
         uses: docker/setup-buildx-action@v3
@@ -63,6 +82,7 @@ jobs:
           docker logs clair
       - name: Tag images
         run: |
+          df -h
           docker stop clair
           docker stop postgres
           docker commit postgres arminc/clair-db-v4:$(date +%Y-%m-%d)
