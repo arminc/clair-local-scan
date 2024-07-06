@@ -22,7 +22,6 @@ jobs:
       - name: Runner diskspace workaround
         run: |
           # Symlink docker image and containers folders to /mnt (GitHub Action space limitation work around)
-          set -x
           docker system prune -a -f
           sudo systemctl stop docker
           sudo mv /var/lib/docker /mnt/docker
@@ -32,7 +31,7 @@ jobs:
             "cgroup-parent": "/actions_job",
             "data-root": "/mnt/docker"
           }'
-          
+
           echo "$json_content" > /tmp/daemon.json
           sudo mv /tmp/daemon.json /etc/docker/daemon.json
           sudo rm -fr /var/lib/docker
@@ -82,21 +81,20 @@ jobs:
           docker logs clair
       - name: Tag images
         run: |
-          df -h
           docker stop clair
           docker stop postgres
           docker commit postgres arminc/clair-db-v4:$(date +%Y-%m-%d)
           docker tag arminc/clair-db-v4:$(date +%Y-%m-%d) arminc/clair-db-v4:latest
           docker tag $CLAIR_LOCAL_SCAN_IMAGE ${CLAIR_LOCAL_SCAN_IMAGE}:${CLAIR_VERSION}_${GITHUB_SHA}
           docker images
-      # - name: Login to DockerHub
-      #   uses: docker/login-action@v1
-      #   with:
-      #     username: ${{ secrets.DOCKERHUB_USERNAME }}
-      #     password: ${{ secrets.DOCKERHUB_TOKEN }}
-      # - name: Push images
-      #   run: |
-      #     docker push ${CLAIR_LOCAL_SCAN_IMAGE}:${CLAIR_VERSION}_${GITHUB_SHA}
-      #     docker push $CLAIR_LOCAL_SCAN_IMAGE:latest
-      #     docker push arminc/clair-db-v4:$(date +%Y-%m-%d)
-      #     docker push arminc/clair-db-v4:latest
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Push images
+        run: |
+          docker push ${CLAIR_LOCAL_SCAN_IMAGE}:${CLAIR_VERSION}_${GITHUB_SHA}
+          docker push $CLAIR_LOCAL_SCAN_IMAGE:latest
+          docker push arminc/clair-db-v4:$(date +%Y-%m-%d)
+          docker push arminc/clair-db-v4:latest
