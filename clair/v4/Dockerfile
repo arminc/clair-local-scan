@@ -1,6 +1,6 @@
 ARG  VERSION=4.7.4
 
-FROM quay.io/projectquay/clair:${VERSION} as src
+FROM quay.io/projectquay/clair:${VERSION}
 
 COPY config.yaml /config/config.yaml
 
